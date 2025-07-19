@@ -1,0 +1,18 @@
+{
+  "name": "website",
+  "type": "module",
+  "description": "Monorepo for SKYM Backend(cms) and Frontend (-web)",
+  "private": true,
+  "scripts": {
+    "check:bun": "node index.js",
+    "dev": "npm-run-all --parallel install:strapi install:next --parallel --race start:strapi start:next",
+    "install:strapi": "bun install --prefix skym-cms",
+    "install:next": "bun install --prefix skym-web",
+    "start:strapi": "bun run develop --prefix skym-cms",
+    "start:next": "bun run dev --prefix skym-web",
+    "postinstall": "npm run check:bun"
+  },
+  "devDependencies": {
+    "npm-run-all2": "^8.0.4"
+  }
+}

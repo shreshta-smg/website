@@ -31,47 +31,21 @@ This repository hosts a full-stack web project built using modern JavaScript tec
 ### Prerequisites
 
 - Node.js (v16 or newer)
-- Yarn, npm, or pnpm (for package management)
+- bun (for package management)
 - (Optional) PostgreSQL/MySQL for production CMS
 
 ### Setup
 
-#### 1. Clone the repository
+#### 1. For Linux
 ```bash
-git clone https://github.com/shreshtadev/website.git
-cd website
+chmod +x run_dev.sh
+./run_dev.sh
 ```
 
-#### 2. Install dependencies
-
-For both frontend and backend, install dependencies:
-```bash
-cd skym-web
-npm install   # or yarn install
-
-cd ../skym-cms
-npm install   # or yarn install
+#### 1. For Windows (with Powershell)
+```powershell
+.\run_dev.ps1
 ```
-
-#### 3. Running the Frontend
-
-Start the Next.js development server:
-```bash
-cd skym-web
-npm run dev   # or yarn dev
-```
-Open [http://localhost:3000](http://localhost:3000) to view the site.
-
-#### 4. Running the Backend
-
-Start the Strapi server in development mode:
-```bash
-cd skym-cms
-npm run develop   # or yarn develop
-```
-Admin dashboard is available at [http://localhost:1337/admin](http://localhost:1337/admin).
-
----
 
 ## Deployment
 

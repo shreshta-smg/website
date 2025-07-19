@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "singularName": "review",
+    "pluralName": "reviews",
+    "displayName": "Review"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "maxLength": 144
+    },
+    "rating": {
+      "type": "integer",
+      "default": 4,
+      "min": 0,
+      "max": 5
+    },
+    "comment": {
+      "type": "richtext",
+      "minLength": 500
+    },
+    "reviewer_name": {
+      "type": "string",
+      "maxLength": 75,
+      "required": true
+    },
+    "reviewer_email": {
+      "type": "email",
+      "private": true
+    },
+    "review_status": {
+      "type": "enumeration",
+      "default": "pending",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    },
+    "internal_note": {
+      "type": "richtext",
+      "minLength": 256
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "reviews"
+    }
+  }
+}

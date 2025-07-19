@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_us_inquiries",
+  "info": {
+    "singularName": "contact-us-inquiry",
+    "pluralName": "contact-us-inquiries",
+    "displayName": "Contact Us Inquiry"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "full_name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 144,
+      "required": true
+    },
+    "email_address": {
+      "type": "email",
+      "required": true
+    },
+    "phone_number": {
+      "type": "string",
+      "required": true,
+      "regex": "/^\\+?[1-9][0-9]{7,14}$/"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 144
+    },
+    "message": {
+      "type": "richtext",
+      "minLength": 1000
+    },
+    "inquiry_status": {
+      "type": "enumeration",
+      "default": "in_progress",
+      "enum": [
+        "in_progress",
+        "resolved",
+        "spam"
+      ]
+    },
+    "notes": {
+      "type": "richtext",
+      "minLength": 512
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "contact_us_inquiries"
+    }
+  }
+}

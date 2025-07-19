@@ -1,0 +1,60 @@
+{
+  "kind": "singleType",
+  "collectionName": "about_uses",
+  "info": {
+    "singularName": "about-us",
+    "pluralName": "about-uses",
+    "displayName": "About Us"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "about_us_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 75
+    },
+    "our_story": {
+      "type": "richtext",
+      "minLength": 512
+    },
+    "vision_statement": {
+      "type": "text",
+      "maxLength": 512
+    },
+    "founder_name": {
+      "type": "string",
+      "maxLength": 75
+    },
+    "address_line": {
+      "type": "text"
+    },
+    "contact_email": {
+      "type": "email"
+    },
+    "contact_number": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 10,
+      "regex": "/^\\+?[1-9][0-9]{7,14}$/"
+    },
+    "yoga_categories": {
+      "type": "component",
+      "component": "yoga-styles.yoga-categories",
+      "repeatable": true
+    },
+    "social_links": {
+      "type": "component",
+      "component": "social-links.social-links",
+      "repeatable": true
+    }
+  }
+}

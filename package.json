@@ -6,10 +6,10 @@
   "scripts": {
     "check:bun": "node index.js",
     "dev": "npm-run-all --parallel install:strapi install:next --parallel --race start:strapi start:next",
-    "install:strapi": "bun install --prefix skym-cms",
-    "install:next": "bun install --prefix skym-web",
-    "start:strapi": "bun run develop --prefix skym-cms",
-    "start:next": "bun run dev --prefix skym-web",
+    "install:strapi": "bun install --cwd ./skym-cms",
+    "install:next": "bun install --cwd ./skym-web",
+    "start:strapi": "bun --filter ./skym-cms develop",
+    "start:next": "bun --filter ./skym-web dev",
     "postinstall": "npm run check:bun"
   },
   "devDependencies": {

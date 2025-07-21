@@ -72,3 +72,9 @@ This project is currently unlicensed. Please add a license if you intend to dist
 ## Contributing
 
 Feedback and contributions are welcome! Please open issues or pull requests as needed.
+
+Author
+http://localhost:1337/admin/auth/register?registrationToken=e6ce10e7b3a220177c31354de2dd61a6803dc569
+
+Editor
+http://localhost:1337/admin/auth/register?registrationToken=87df901c66c9a6416e640d867b663803db62d8f2

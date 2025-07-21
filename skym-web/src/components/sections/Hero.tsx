@@ -9,7 +9,7 @@ const Hero = () => {
 
   const slides = [
     {
-      title: "स्वागतम, श्री कृष्ण योग केन्द्र",
+      title: "स्वागतम, श्री कृष्ण योग केन्द्र।",
       subtitle: "Yoga & Wellness for Every Body",
       description:
         "Experience holistic health, inner peace, and rejuvenation at SKYM – your sanctuary for yoga, meditation, and mindful living.",
@@ -27,7 +27,7 @@ const Hero = () => {
       backgroundGradient: "from-pink-300 to-purple-400",
     },
     {
-      title: "शरीर, मन एवं आत्मा का पोषण",
+      title: "शरीर, मन एवं आत्मा का पोषण।",
       subtitle: "Wellness Beyond the Mat",
       description:
         "Discover workshops, therapies, and community events designed to support your complete well-being at SKYM.",
@@ -56,7 +56,7 @@ const Hero = () => {
     <section id="home" className="hero min-h-screen relative overflow-hidden">
       {/* Animated Background */}
       <div
-        className={`hero-overlay bg-gradient-to-br ${currentSlideData.backgroundGradient} opacity-90 transition-all duration-1000`}
+        className={`hero-overlay bg-gradient-to-br ${currentSlideData.backgroundGradient} opacity-40 transition-all duration-1000`}
       ></div>
 
       {/* Background Pattern */}
@@ -69,17 +69,17 @@ const Hero = () => {
       >
         <div className="max-w-4xl">
           {/* Main Title */}
-          <h1 className="mb-5 text-5xl md:text-7xl font-bold leading-tight">
+          <h1 className="mb-5 text-5xl md:text-7xl text-primary font-bold leading-tight">
             {currentSlideData.title}
           </h1>
 
           {/* Subtitle */}
-          <h2 className="mb-5 text-2xl md:text-3xl font-light opacity-90">
+          <h2 className="mb-5 text-2xl md:text-3xl text-primary font-light opacity-90">
             {currentSlideData.subtitle}
           </h2>
 
           {/* Description */}
-          <p className="mb-8 text-lg md:text-xl max-w-2xl mx-auto opacity-80 leading-relaxed">
+          <p className="mb-8 text-lg md:text-xl max-w-2xl mx-auto text-primary opacity-80 leading-relaxed">
             {currentSlideData.description}
           </p>
 
@@ -87,7 +87,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="#contact"
-              className="btn btn-lg btn-primary btn-animate hover:btn-secondary font-semibold px-8"
+              className="btn btn-lg btn-primary btn-animate hover:btn-accent font-semibold px-8"
             >
               {currentSlideData.cta}
               <svg
@@ -107,7 +107,7 @@ const Hero = () => {
             </Link>
             <Link
               href="#about"
-              className="btn btn-lg btn-outline btn-accent btn-animate hover:bg-accent hover:text-accent-content font-semibold px-8"
+              className="btn btn-lg btn-outline btn-accent btn-animate hover:bg-primary hover:text-accent-content bg-accent text-primary-content font-semibold px-8"
             >
               Learn More
             </Link>
@@ -116,13 +116,13 @@ const Hero = () => {
           {/* Features Preview */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             <div className="text-center animate-fade-in">
-              <div className="bg-white bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+              <div className="bg-accent bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  stroke="accentColor"
                 >
                   <path
                     strokeLinecap="round"
@@ -132,10 +132,10 @@ const Hero = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-lg text-primary font-semibold mb-2">
                 Certified Instructors
               </h3>
-              <p className="text-sm opacity-75">
+              <p className="text-sm opacity-75 text-primary">
                 Learn from experienced and passionate yoga teachers
               </p>
             </div>
@@ -144,13 +144,13 @@ const Hero = () => {
               className="text-center animate-fade-in"
               style={{ animationDelay: "0.2s" }}
             >
-              <div className="bg-white bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+              <div className="bg-accent bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  stroke="accentColor"
                 >
                   <path
                     strokeLinecap="round"
@@ -160,8 +160,10 @@ const Hero = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Holistic Wellness</h3>
-              <p className="text-sm opacity-75">
+              <h3 className="text-lg font-semibold mb-2 text-primary">
+                Holistic Wellness
+              </h3>
+              <p className="text-sm opacity-75 text-primary">
                 Yoga, meditation, and therapies for mind-body balance
               </p>
             </div>
@@ -170,13 +172,13 @@ const Hero = () => {
               className="text-center animate-fade-in"
               style={{ animationDelay: "0.4s" }}
             >
-              <div className="bg-white bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+              <div className="bg-accent bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  stroke="accentColor"
                 >
                   <path
                     strokeLinecap="round"
@@ -186,10 +188,10 @@ const Hero = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-lg font-semibold mb-2 text-primary">
                 Community & Support
               </h3>
-              <p className="text-sm opacity-75">
+              <p className="text-sm opacity-75 text-primary">
                 Join a welcoming community and supportive environment
               </p>
             </div>

@@ -7,7 +7,7 @@
     "displayName": "Review"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -23,7 +23,7 @@
     },
     "comment": {
       "type": "richtext",
-      "minLength": 500
+      "maxLength": 500
     },
     "reviewer_name": {
       "type": "string",

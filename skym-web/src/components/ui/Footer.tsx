@@ -13,8 +13,7 @@ const Footer = () => {
     ],
     support: [
       { name: "Contact Us", href: "#contact" },
-      { name: "Help Center", href: "#" },
-      { name: "Documentation", href: "#" },
+      { name: "Help Center", href: "#contact" },
     ],
     legal: [
       { name: "Privacy Policy", href: "#" },
@@ -69,7 +68,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-base-300 text-base-content">
+    <footer className="w-full bg-base-200 text-center shadow py-4">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-8">
@@ -79,7 +78,7 @@ const Footer = () => {
               href="/"
               className="text-2xl font-bold gradient-text mb-4 inline-block"
             >
-              SKYM
+              Shree Krishna Yoga Kendra
             </Link>
             <p className="text-base-content/70 mb-6 leading-relaxed">
               Transforming businesses with innovative technology solutions. We
@@ -154,7 +153,7 @@ const Footer = () => {
 
       {/* Newsletter Subscription */}
       <div className="">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-2">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
               <h3 className="text-lg font-semibold mb-2">Stay Updated</h3>
@@ -195,11 +194,11 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-base-content/70 text-sm">
-              © {currentYear} SKYM. All rights reserved.
+              © {currentYear} Shree Krishna Yoga Mandiram. All rights reserved.
             </div>
             <div className="flex flex-wrap items-center gap-6 text-sm">
               <span className="text-base-content/70">
-                Made with ❤️ by SKYM Team
+                POWERED BY SHRESHTA.SMG
               </span>
               <div className="flex items-center gap-2 text-base-content/70">
                 <svg
@@ -222,7 +221,7 @@ const Footer = () => {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span>Innovation City, IC</span>
+                <span>Shree Krishna Yoga Mandiram</span>
               </div>
             </div>
           </div>

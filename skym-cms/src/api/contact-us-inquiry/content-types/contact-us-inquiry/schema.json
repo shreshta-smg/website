@@ -26,6 +26,19 @@
       "required": true,
       "regex": "^\\+?[1-9][0-9]{7,14}$"
     },
+    "category": {
+      "type": "enumeration",
+      "required": true,
+      "default": "Other",
+      "enum": [
+        "Therapy",
+        "Consultation",
+        "Training",
+        "Coaching",
+        "Workshops",
+        "Other"
+      ]
+    },
     "subject": {
       "type": "string",
       "minLength": 5,
@@ -33,10 +46,11 @@
     },
     "message": {
       "type": "richtext",
-      "minLength": 1000
+      "maxLength": 1000
     },
     "inquiry_status": {
       "type": "enumeration",
+      "private": true,
       "default": "in_progress",
       "enum": [
         "in_progress",
@@ -46,16 +60,12 @@
     },
     "notes": {
       "type": "richtext",
+      "private": true,
       "minLength": 512
     },
     "ip_address": {
-      "type": "string"
-    },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "contact_us_inquiries"
+      "type": "string",
+      "private": true
     }
   }
 }

@@ -1,10 +1,31 @@
 "use client";
 
+import { getReviews } from "@/lib/external";
+import { Review, Testimonial } from "@/lib/types";
 import { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+
+function getRandomTestimonials<T>(list: T[]): T[] {
+  if (!Array.isArray(list) || list.length < 3) {
+    console.warn("Input must be an array with at least 3 items to pick from.");
+    return [];
+  }
+
+  const result: T[] = [];
+  const tempList: T[] = [...list];
+
+  for (let i = 0; i < 3; i++) {
+    const randomIndex: number = Math.floor(Math.random() * tempList.length);
+    result.push(tempList[randomIndex]);
+    tempList.splice(randomIndex, 1);
+  }
+  return result;
+}
 
 const Features = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
 
   const features = [
@@ -204,33 +225,6 @@ const Features = () => {
     },
   ];
 
-  const testimonials = [
-    {
-      name: "Priya Sharma",
-      role: "Yoga Enthusiast",
-      content:
-        "The instructors are amazing and the atmosphere is so peaceful. My health and flexibility have improved tremendously!",
-      avatar: "P",
-      rating: 5,
-    },
-    {
-      name: "Rahul Mehta",
-      role: "Corporate Professional",
-      content:
-        "The personalized health plan helped me manage stress and improve my lifestyle. Highly recommended for anyone seeking wellness.",
-      avatar: "R",
-      rating: 5,
-    },
-    {
-      name: "Anjali Verma",
-      role: "Wellness Seeker",
-      content:
-        "The workshops and therapies are top-notch. I always leave feeling rejuvenated and inspired.",
-      avatar: "A",
-      rating: 5,
-    },
-  ];
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -252,6 +246,27 @@ const Features = () => {
     const interval = setInterval(() => {
       setActiveFeature((prev) => (prev + 1) % features.length);
     }, 3000);
+
+    const topReviews = async () => {
+      const allReviews = (await getReviews()).reviews;
+      if (allReviews === undefined) throw new Error("No Reviews Yet");
+
+      const topTestimonials: Testimonial[] = allReviews.map((r) => {
+        const rv = r as unknown as Review;
+        const review = {
+          name: rv.reviewer_name,
+          role: rv.profession,
+          content: rv.comment,
+          avatar: rv.reviewer_name.charAt(0).toUpperCase(),
+          rating: rv.rating,
+          email: rv.reviewer_email,
+          phone: rv.reviewer_phone,
+        };
+        return review;
+      });
+      setTestimonials(getRandomTestimonials<Testimonial>(topTestimonials));
+    };
+    topReviews();
 
     return () => clearInterval(interval);
   }, [features.length]);
@@ -416,6 +431,7 @@ const Features = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
+            {/* ReviewList */}
             {testimonials.map((testimonial, index) => (
               <div
                 key={testimonial.name}
@@ -425,7 +441,7 @@ const Features = () => {
                 <div className="card-body">
                   <div className="flex items-center mb-4">
                     <div className="avatar placeholder mr-4">
-                      <div className="bg-neutral text-neutral-content rounded-full w-12">
+                      <div className="bg-neutral text-neutral-content rounded-full w-12 h-12 flex items-center justify-center">
                         <span className="text-lg">{testimonial.avatar}</span>
                       </div>
                     </div>
@@ -449,9 +465,11 @@ const Features = () => {
                     ))}
                   </div>
 
-                  <p className="text-base-content/80 italic leading-relaxed">
-                    {testimonial.content}
-                  </p>
+                  <div className="text-base-content/80 italic leading-relaxed">
+                    <ReactMarkdown>
+                      {testimonial.content?.replace(/\\n/g, "\n")}
+                    </ReactMarkdown>
+                  </div>
                 </div>
               </div>
             ))}

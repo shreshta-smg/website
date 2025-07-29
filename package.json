@@ -6,6 +6,7 @@
   "scripts": {
     "check:bun": "node index.js",
     "dev": "npm-run-all --parallel install:strapi install:next --parallel --race start:strapi start:next",
+    "local": "npm-run-all --parallel --race start:strapi start:next",
     "install:strapi": "bun install --cwd ./skym-cms",
     "install:next": "bun install --cwd ./skym-web",
     "start:strapi": "bun --filter ./skym-cms develop",

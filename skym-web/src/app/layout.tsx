@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Fredoka, Poppins } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -26,8 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="lemonade">
-      <body className={`${fredoka.variable} ${poppins.variable} antialiased`}>
-        {children}
+      <body
+        className={`${fredoka.variable} ${poppins.variable} antialiased flex flex-col min-h-screen`}
+      >
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
       </body>
     </html>
   );

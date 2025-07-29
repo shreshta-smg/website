@@ -1,16 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Features', href: '#features' },
-    { name: 'Contact', href: '#contact' },
+    { name: "Home", href: "/#home" },
+    { name: "About", href: "/#about" },
+    { name: "Features", href: "/#features" },
+    { name: "Blog", href: "/blog/category" },
+    { name: "Review", href: "/#review" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -45,10 +47,7 @@ const Header = () => {
             >
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
+                  <Link href={item.href} onClick={() => setIsMenuOpen(false)}>
                     {item.name}
                   </Link>
                 </li>
@@ -56,7 +55,10 @@ const Header = () => {
             </ul>
           )}
         </div>
-        <Link href="/" className="btn btn-ghost text-xl font-bold gradient-text">
+        <Link
+          href="/"
+          className="btn btn-ghost text-xl font-bold gradient-text"
+        >
           SKYM
         </Link>
       </div>

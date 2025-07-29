@@ -15,6 +15,18 @@
       "type": "string",
       "maxLength": 144
     },
+    "category": {
+      "type": "enumeration",
+      "default": "other",
+      "enum": [
+        "Therapy",
+        "Consultation",
+        "Training",
+        "Coaching",
+        "Workshops",
+        "Other"
+      ]
+    },
     "rating": {
       "type": "integer",
       "default": 4,
@@ -32,26 +44,28 @@
     },
     "reviewer_email": {
       "type": "email",
-      "private": true
+      "require": true
+    },
+    "reviewer_phone": {
+      "type": "string",
+      "maxLength": 14,
+      "required": true,
+      "regex": "^\\+?[1-9][0-9]{7,14}$"
+    },
+    "profession": {
+      "type": "string",
+      "maxLength": 65
     },
     "review_status": {
       "type": "enumeration",
       "default": "pending",
-      "enum": [
-        "pending",
-        "approved",
-        "rejected"
-      ]
+      "enum": ["pending", "approved", "rejected"],
+      "private": true
     },
     "internal_note": {
       "type": "richtext",
-      "minLength": 256
-    },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "reviews"
+      "minLength": 256,
+      "private": true
     }
   }
 }

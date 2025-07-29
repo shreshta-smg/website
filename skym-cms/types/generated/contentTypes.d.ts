@@ -521,6 +521,11 @@ export interface ApiContactUsInquiryContactUsInquiry
     draftAndPublish: false;
   };
   attributes: {
+    category: Schema.Attribute.Enumeration<
+      ['Therapy', 'Consultation', 'Training', 'Coaching', 'Workshops', 'Other']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Other'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -534,8 +539,9 @@ export interface ApiContactUsInquiryContactUsInquiry
     inquiry_status: Schema.Attribute.Enumeration<
       ['in_progress', 'resolved', 'spam']
     > &
+      Schema.Attribute.Private &
       Schema.Attribute.DefaultTo<'in_progress'>;
-    ip_address: Schema.Attribute.String;
+    ip_address: Schema.Attribute.String & Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -544,9 +550,10 @@ export interface ApiContactUsInquiryContactUsInquiry
       Schema.Attribute.Private;
     message: Schema.Attribute.RichText &
       Schema.Attribute.SetMinMaxLength<{
-        minLength: 1000;
+        maxLength: 1000;
       }>;
     notes: Schema.Attribute.RichText &
+      Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 512;
       }>;
@@ -560,10 +567,6 @@ export interface ApiContactUsInquiryContactUsInquiry
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -578,6 +581,10 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    category: Schema.Attribute.Enumeration<
+      ['Therapy', 'Consultation', 'Training', 'Coaching', 'Workshops', 'Other']
+    > &
+      Schema.Attribute.DefaultTo<'other'>;
     comment: Schema.Attribute.RichText &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 500;
@@ -586,6 +593,7 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     internal_note: Schema.Attribute.RichText &
+      Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 256;
       }>;
@@ -595,6 +603,10 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
       'api::review.review'
     > &
       Schema.Attribute.Private;
+    profession: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 65;
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
@@ -608,12 +620,18 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     review_status: Schema.Attribute.Enumeration<
       ['pending', 'approved', 'rejected']
     > &
+      Schema.Attribute.Private &
       Schema.Attribute.DefaultTo<'pending'>;
-    reviewer_email: Schema.Attribute.Email & Schema.Attribute.Private;
+    reviewer_email: Schema.Attribute.Email;
     reviewer_name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 75;
+      }>;
+    reviewer_phone: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 14;
       }>;
     title: Schema.Attribute.String &
       Schema.Attribute.SetMinMaxLength<{
@@ -622,10 +640,6 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -1121,10 +1135,6 @@ export interface PluginUsersPermissionsUser
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    contact_us_inquiries: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::contact-us-inquiry.contact-us-inquiry'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1147,7 +1157,6 @@ export interface PluginUsersPermissionsUser
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
-    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     role: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.role'

@@ -1,18 +1,21 @@
 "use client";
 
-import { newContactUsInquiry } from "@/lib/external";
-import { ContactUsCategory } from "@/lib/types";
+import { newReview } from "@/lib/external";
+import { Review, ReviewCategory } from "@/lib/types";
 import { useState, useRef, useEffect } from "react";
+import RatingInput from "../ui/RatingInput";
 
-const Contact = () => {
+const ReviewForm = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
-    full_name: "",
-    email_address: "",
-    phone_number: "",
-    subject: "",
-    message: "",
-    category: "" as ContactUsCategory,
+    reviewer_name: "",
+    reviewer_email: "",
+    reviewer_phone: "",
+    comment: "",
+    title: "",
+    category: "Other" as ReviewCategory,
+    profession: "",
+    rating: 0,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -28,100 +31,6 @@ const Contact = () => {
     "Coaching",
     "Workshops",
     "Other",
-  ];
-
-  const contactInfo = [
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
-        </svg>
-      ),
-      title: "Email",
-      value: "rajashree.archaka@gmail.com",
-      href: "mailto:rajashree.archaka@gmail.com",
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-          />
-        </svg>
-      ),
-      title: "Phone",
-      value: "+91 9900046130",
-      href: "tel:+919900046130",
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
-      ),
-      title: "Address",
-      value:
-        "ESCUBE TOWERS 3rd floor Beside SLN Bakery Opp. CITB Complex Police Chowki Shivamogga 577204",
-      href: "https://maps.google.com",
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
-      title: "Office Hours",
-      value: "Mon - Fri: 9:00 AM - 5:00 PM",
-      href: null,
-    },
   ];
 
   useEffect(() => {
@@ -160,32 +69,38 @@ const Contact = () => {
     // Simulate form submission
     try {
       const {
-        full_name,
-        email_address,
-        phone_number,
-        subject,
-        message,
+        reviewer_name,
+        reviewer_email,
+        reviewer_phone,
+        title,
+        comment,
         category,
+        rating,
+        profession,
       } = formData;
-      const inquiry = await newContactUsInquiry({
-        full_name,
-        email_address,
-        phone_number,
-        subject,
-        message,
+      const createdNewReview = await newReview({
+        reviewer_name,
+        reviewer_email,
+        reviewer_phone,
+        title,
+        comment,
         category,
+        rating,
+        profession,
       });
-      console.log(inquiry);
+      console.log(createdNewReview);
       setSubmitStatus("success");
       setFormData({
-        full_name: "",
-        email_address: "",
-        phone_number: "",
-        subject: "",
-        message: "",
-        category: "" as ContactUsCategory,
+        reviewer_name: "",
+        reviewer_email: "",
+        reviewer_phone: "",
+        title: "",
+        comment: "",
+        category: "Other" as ReviewCategory,
+        rating: 0,
+        profession: "",
       });
-    } catch (error) {
+    } catch (_) {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -193,30 +108,44 @@ const Contact = () => {
     }
   };
 
+  function resetReviewForm(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): void {
+    setFormData({
+      reviewer_name: "",
+      reviewer_email: "",
+      reviewer_phone: "",
+      title: "",
+      comment: "",
+      category: "" as ReviewCategory,
+      rating: 0,
+      profession: "",
+    });
+  }
+
   return (
-    <section id="contact" ref={sectionRef} className="py-20 bg-base-100">
+    <section id="review" ref={sectionRef} className="bg-base-100 flex">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+          className={`text-center mb-8 transition-all duration-700 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            Get In Touch
+          <h2 className="text-4xl md:text-5xl font-bold mb-2 gradient-text">
+            Reviews
           </h2>
           <p className="text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed">
-            Ready to start your next project? We&apos;d love to hear from you.
-            Send us a message and we&apos;ll respond as soon as possible.
+            Tell Us What Moved You Today?
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid gap-12 items-center-safe">
           {/* Contact Form */}
           <div
             className={`transition-all duration-700 delay-300 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
           >
             <div className="card  shadow-xl">
               <div className="card-body">
-                <h3 className="card-title text-2xl mb-6">Send us a message</h3>
+                <h3 className="card-title text-2xl mb-6">Review Form</h3>
 
                 {submitStatus === "success" && (
                   <div className="alert alert-success mb-6">
@@ -233,9 +162,7 @@ const Contact = () => {
                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span>
-                      Thank you! Your message has been sent successfully.
-                    </span>
+                    <span>Thank you! Your review has been sent submitted.</span>
                   </div>
                 )}
 
@@ -269,8 +196,8 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
-                        name="full_name"
-                        value={formData.full_name}
+                        name="reviewer_name"
+                        value={formData.reviewer_name}
                         onChange={handleInputChange}
                         placeholder="Your full name"
                         className="input input-bordered w-full focus:input-primary"
@@ -286,8 +213,8 @@ const Contact = () => {
                       </label>
                       <input
                         type="email"
-                        name="email_address"
-                        value={formData.email_address}
+                        name="reviewer_email"
+                        value={formData.reviewer_email}
                         onChange={handleInputChange}
                         placeholder="your@email.com"
                         className="input input-bordered w-full focus:input-primary"
@@ -305,14 +232,15 @@ const Contact = () => {
                       </label>
                       <input
                         type="tel"
-                        name="phone_number"
-                        value={formData.phone_number}
+                        name="reviewer_phone"
+                        value={formData.reviewer_phone}
                         onChange={handleInputChange}
                         placeholder="Your phone number"
                         className="input input-bordered w-full focus:input-primary"
                         required
                       />
                     </div>
+
                     <div className="form-control">
                       <label className="label">
                         <span className="label-text font-semibold">
@@ -325,7 +253,7 @@ const Contact = () => {
                         onChange={handleInputChange}
                         className="select select-bordered w-full focus:select-primary"
                       >
-                        <option value="">Select an inquiry category</option>
+                        <option value="">Select an review category</option>
                         {services.map((service) => (
                           <option key={service.toLowerCase()} value={service}>
                             {service.toUpperCase()}
@@ -334,17 +262,56 @@ const Contact = () => {
                       </select>
                     </div>
                   </div>
-
+                  <section className="grid md:grid-cols-2 gap-4">
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text font-semibold">
+                          Profession
+                        </span>
+                      </label>
+                      <input
+                        type="text"
+                        name="profession"
+                        value={formData.profession}
+                        onChange={handleInputChange}
+                        placeholder="Your profession... e.g. Doctor, Engineer etc."
+                        className="input input-bordered w-full focus:input-primary"
+                        required
+                      />
+                    </div>
+                    <div className="form-control p-6">
+                      <label className="label" htmlFor="rating">
+                        <span className="label-text">Rating: </span>
+                        <div className="rating rating-lg ml-4">
+                          {[1, 2, 3, 4, 5].map((starValue) => (
+                            <input
+                              key={starValue}
+                              type="radio"
+                              name="rating" // Use the name prop for the radio group
+                              className={`mask mask-star-2 bg-warning peer ${
+                                formData.rating >= starValue
+                                  ? "peer-checked:bg-green-500"
+                                  : "group-hover:bg-green-500"
+                              }`}
+                              value={starValue}
+                              onChange={handleInputChange} // Pass the starValue directly
+                              aria-label={`${starValue} star`}
+                            />
+                          ))}
+                        </div>
+                      </label>
+                    </div>
+                  </section>
                   <div className="form-control">
                     <label className="label">
                       <span className="label-text font-semibold">Subject</span>
                     </label>
                     <input
                       type="text"
-                      name="subject"
-                      value={formData.subject}
+                      name="title"
+                      value={formData.title}
                       onChange={handleInputChange}
-                      placeholder="Your company name"
+                      placeholder="Subject of your review"
                       className="input input-bordered w-full focus:input-primary"
                       required
                     />
@@ -357,20 +324,26 @@ const Contact = () => {
                       </span>
                     </label>
                     <textarea
-                      name="message"
-                      value={formData.message}
+                      name="comment"
+                      value={formData.comment}
                       onChange={handleInputChange}
-                      placeholder="Let us know what you want to know more about..."
+                      placeholder="Tell us more about your experience..."
                       className="textarea textarea-bordered h-32 w-full focus:textarea-primary resize-none"
                       required
                     />
                   </div>
 
-                  <div className="form-control">
+                  <div className="form-control flex justify-between">
+                    <button
+                      onClick={resetReviewForm}
+                      className="btn btn-secondary btn-md"
+                    >
+                      Reset
+                    </button>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn btn-primary btn-lg w-full btn-animate"
+                      className="btn btn-accent btn-md btn-animate"
                     >
                       {isSubmitting ? (
                         <>
@@ -379,7 +352,7 @@ const Contact = () => {
                         </>
                       ) : (
                         <>
-                          Send Message
+                          Submit Review
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-5 w-5 ml-2"
@@ -402,77 +375,10 @@ const Contact = () => {
               </div>
             </div>
           </div>
-
-          {/* Contact Information */}
-          <div
-            className={`transition-all duration-700 delay-500 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
-          >
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-                <p className="text-base-content/80 leading-relaxed mb-8">
-                  We&apos;re here to help and answer any question you might
-                  have. We look forward to hearing from you! Here are the ways
-                  you can reach us.
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {contactInfo.map((info, _) => (
-                  <div key={info.title} className="card  shadow-sm card-hover">
-                    <div className="card-body p-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-primary/20 text-primary rounded-full">
-                          {info.icon}
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold mb-1">{info.title}</h4>
-                          {info.href ? (
-                            <a
-                              href={info.href}
-                              className="text-base-content/70 hover:text-primary transition-colors"
-                              {...(info.href.startsWith("http")
-                                ? {
-                                    target: "_blank",
-                                    rel: "noopener noreferrer",
-                                  }
-                                : {})}
-                            >
-                              {info.value}
-                            </a>
-                          ) : (
-                            <span className="text-base-content/70">
-                              {info.value}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Map Placeholder */}
-              <div className="card shadow-sm">
-                <div className="card-body p-0">
-                  <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center h-96">
-                    <div className="w-full h-full">
-                      <iframe
-                        className="w-full h-full border-0 rounded-lg"
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps?q=ESCUBE+TOWERS+3rd+floor+Beside+SLN+Bakery+Opp.+CITB+Complex+Police+Chowki+Shivamogga+577204&output=embed"
-                      ></iframe>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default Contact;
+export default ReviewForm;

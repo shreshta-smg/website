@@ -1,7 +1,7 @@
 "use client";
 
-import { newContactUsInquiry } from "@/lib/external";
-import { ContactUsCategory } from "@/lib/types";
+import { newContactUsInquiry } from "@/lib/client";
+import { FeedbackCategory, FeedbackType, services } from "@/lib/types";
 import { useState, useRef, useEffect } from "react";
 
 const Contact = () => {
@@ -12,7 +12,7 @@ const Contact = () => {
     phone_number: "",
     subject: "",
     message: "",
-    category: "" as ContactUsCategory,
+    category: FeedbackCategory.None,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -20,15 +20,6 @@ const Contact = () => {
   >("idle");
 
   const sectionRef = useRef<HTMLElement>(null);
-
-  const services = [
-    "Therapy",
-    "Consultation",
-    "Training",
-    "Coaching",
-    "Workshops",
-    "Other",
-  ];
 
   const contactInfo = [
     {
@@ -167,15 +158,16 @@ const Contact = () => {
         message,
         category,
       } = formData;
-      const inquiry = await newContactUsInquiry({
-        full_name,
-        email_address,
-        phone_number,
-        subject,
-        message,
-        category,
-      });
-      console.log(inquiry);
+      const newInquiry = {
+        full_name: full_name,
+        email_address: email_address,
+        phone_number: phone_number,
+        title: subject,
+        comment: message,
+        feedback_category: category,
+        feedback_type: FeedbackType.Inquiry,
+      };
+      await newContactUsInquiry(newInquiry);
       setSubmitStatus("success");
       setFormData({
         full_name: "",
@@ -183,7 +175,7 @@ const Contact = () => {
         phone_number: "",
         subject: "",
         message: "",
-        category: "" as ContactUsCategory,
+        category: FeedbackCategory.None,
       });
     } catch (error) {
       setSubmitStatus("error");
@@ -327,7 +319,10 @@ const Contact = () => {
                       >
                         <option value="">Select an inquiry category</option>
                         {services.map((service) => (
-                          <option key={service.toLowerCase()} value={service}>
+                          <option
+                            key={service.toLowerCase()}
+                            value={services.indexOf(service)}
+                          >
                             {service.toUpperCase()}
                           </option>
                         ))}

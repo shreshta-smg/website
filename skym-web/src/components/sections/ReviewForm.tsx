@@ -1,9 +1,7 @@
 "use client";
-
-import { newReview } from "@/lib/external";
-import { Review, ReviewCategory } from "@/lib/types";
+import { newReview } from "@/lib/client";
+import { FeedbackCategory, services } from "@/lib/types";
 import { useState, useRef, useEffect } from "react";
-import RatingInput from "../ui/RatingInput";
 
 const ReviewForm = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,7 +11,7 @@ const ReviewForm = () => {
     reviewer_phone: "",
     comment: "",
     title: "",
-    category: "Other" as ReviewCategory,
+    category: FeedbackCategory.None,
     profession: "",
     rating: 0,
   });
@@ -23,15 +21,6 @@ const ReviewForm = () => {
   >("idle");
 
   const sectionRef = useRef<HTMLElement>(null);
-
-  const services = [
-    "Therapy",
-    "Consultation",
-    "Training",
-    "Coaching",
-    "Workshops",
-    "Other",
-  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -65,7 +54,6 @@ const ReviewForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     // Simulate form submission
     try {
       const {
@@ -78,17 +66,16 @@ const ReviewForm = () => {
         rating,
         profession,
       } = formData;
-      const createdNewReview = await newReview({
-        reviewer_name,
-        reviewer_email,
-        reviewer_phone,
-        title,
-        comment,
-        category,
-        rating,
-        profession,
+      await newReview({
+        full_name: reviewer_name,
+        email_address: reviewer_email,
+        phone_number: reviewer_phone,
+        title: title,
+        comment: comment,
+        feedback_category: category,
+        rating: rating,
+        profession: profession,
       });
-      console.log(createdNewReview);
       setSubmitStatus("success");
       setFormData({
         reviewer_name: "",
@@ -96,7 +83,7 @@ const ReviewForm = () => {
         reviewer_phone: "",
         title: "",
         comment: "",
-        category: "Other" as ReviewCategory,
+        category: FeedbackCategory.None,
         rating: 0,
         profession: "",
       });
@@ -117,7 +104,7 @@ const ReviewForm = () => {
       reviewer_phone: "",
       title: "",
       comment: "",
-      category: "" as ReviewCategory,
+      category: FeedbackCategory.None,
       rating: 0,
       profession: "",
     });
@@ -255,7 +242,10 @@ const ReviewForm = () => {
                       >
                         <option value="">Select an review category</option>
                         {services.map((service) => (
-                          <option key={service.toLowerCase()} value={service}>
+                          <option
+                            key={service.toLowerCase()}
+                            value={services.indexOf(service)}
+                          >
                             {service.toUpperCase()}
                           </option>
                         ))}

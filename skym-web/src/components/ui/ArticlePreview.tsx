@@ -3,13 +3,13 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
 interface ArticleProps {
-  title: string;
-  slug: string;
+  title?: string;
+  slug?: string;
   content?: string; // markdown
   featured_image_url?: string;
   caption?: string;
-  tags: string[];
-  categoryId: string;
+  tags?: { title: string; slug: string }[];
+  categoryId?: string;
 }
 
 export default function ArticlePreview({
@@ -21,14 +21,12 @@ export default function ArticlePreview({
   tags,
   categoryId,
 }: ArticleProps) {
-  const BASE_URL =
-    process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
   return (
     <div className="card shadow-md hover:shadow-lg p-4">
       <div className="relative w-full h-[400px] mb-4">
         {featured_image_url != undefined ? (
           <Image
-            src={BASE_URL.concat(featured_image_url)}
+            src={featured_image_url}
             alt={caption || "featured image"}
             fill
             className="object-cover rounded-md"
@@ -49,9 +47,9 @@ export default function ArticlePreview({
           <ReactMarkdown>{content?.replace(/\\n/g, "\n")}</ReactMarkdown>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map((tag: string) => (
-            <span key={tag} className="badge badge-outline badge-info">
-              {tag}
+          {tags?.map((tag: { title: string; slug: string }) => (
+            <span key={tag.slug} className="badge badge-outline badge-info">
+              {tag.title}
             </span>
           ))}
         </div>

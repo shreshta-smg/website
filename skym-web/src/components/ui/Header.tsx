@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import AuthStatus from "./AuthStatus";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ const Header = () => {
     { name: "Home", href: "/#home" },
     { name: "About", href: "/#about" },
     { name: "Features", href: "/#features" },
-    { name: "Blog", href: "/blog/category" },
+    { name: "Blog", href: "/blog/categories" },
     { name: "Review", href: "/#review" },
     { name: "Contact", href: "/#contact" },
   ];
@@ -78,7 +79,8 @@ const Header = () => {
         </ul>
       </div>
 
-      <div className="navbar-end">
+      <div className="navbar-end gap-4">
+        <AuthStatus />
         <Link href="#contact" className="btn btn-primary btn-animate">
           Get Started
         </Link>

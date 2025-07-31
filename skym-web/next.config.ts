@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     cssChunking: true,
   },
   images: {
-    remotePatterns: [new URL("http://localhost:1337/uploads/**")],
+    remotePatterns: [new URL("https://example.com/**")],
   },
 };
 

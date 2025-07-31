@@ -1,100 +1,29 @@
-export type BaseError = {
-  name: string;
-  message: string;
-  status: number;
-  details: object;
-};
-export type GenericError = {
-  data: null;
-  error: BaseError;
-};
+import { Database } from "./database.types";
 
-export type BasePagination = {
-  page: number;
-  pageSize: number;
-  pageCount: number;
-  total: number;
-};
+export enum FeedbackCategory {
+  None = 0,
+  Therapy = 1,
+  Consultation = 2,
+  Training = 3,
+  Coaching = 4,
+  Workshop = 5,
+  Other = 6,
+}
 
-export type BaseMeta = {
-  pagination: BasePagination;
-};
+export enum FeedbackType {
+  Review = 1,
+  Inquiry = 2,
+}
 
-export type AboutUsData = {
-  title: string;
-  our_story: string;
-  vision_statement: string;
-  founder_name: string;
-  address_line: string;
-  contact_email: string;
-  contact_number: string;
-};
-
-export type AboutUs = {
-  data: AboutUsData;
-  meta: BaseMeta;
-};
-
-export type Tag = {
-  id: string;
-  title: string;
-  slug: string;
-};
-
-export type Category = {
-  id: string;
-  title: string;
-};
-
-export type Article = {
-  id: string;
-  title: string;
-  slug: string;
-  content?: string;
-  featured_image_url?: string;
-  caption?: string;
-  tags: string[];
-  categoryTitle?: string;
-  categoryId?: string;
-};
-
-export type ReviewCategory =
-  | "Therapy"
-  | "Consultation"
-  | "Training"
-  | "Coaching"
-  | "Workshop"
-  | "Other";
-
-export type ContactUsCategory =
-  | "Therapy"
-  | "Consultation"
-  | "Training"
-  | "Coaching"
-  | "Workshop"
-  | "Other";
-
-export type Review = {
-  id?: string;
-  title?: string;
-  category?: ReviewCategory;
-  rating?: number;
-  comment?: string;
-  reviewer_name: string;
-  reviewer_email: string;
-  reviewer_phone: string;
-  profession?: string;
-};
-
-export type ContactUsInquiry = {
-  id?: string;
-  full_name: string;
-  email_address: string;
-  phone_number: string;
-  category: ContactUsCategory;
-  subject?: string;
-  message?: string;
-};
+export const services = [
+  "None",
+  "Therapy",
+  "Consultation",
+  "Training",
+  "Coaching",
+  "Workshops",
+  "Other",
+];
 
 export type Testimonial = {
   name: string;
@@ -105,3 +34,21 @@ export type Testimonial = {
   email: string;
   phone: string;
 };
+
+export interface PaginatedData<T> {
+  data: T[] | null;
+  totalCount: number;
+  error: Error | null;
+}
+
+export interface PaginationOptions {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  categoryId?: string;
+}
+
+export type Category = Database["api"]["Tables"]["categories"]["Row"];
+export type Article = Database["api"]["Tables"]["articles"]["Row"];
+export type Feedback = Database["api"]["Tables"]["feedbacks"]["Row"];

@@ -1,7 +1,6 @@
 "use client";
-
-import { getReviews } from "@/lib/external";
-import { Review, Testimonial } from "@/lib/types";
+import { getReviews } from "@/lib/client";
+import { Feedback, Testimonial } from "@/lib/types";
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -25,7 +24,7 @@ function getRandomTestimonials<T>(list: T[]): T[] {
 const Features = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonials, setTestimonials] = useState([]);
   const sectionRef = useRef<HTMLElement>(null);
 
   const features = [
@@ -248,23 +247,24 @@ const Features = () => {
     }, 3000);
 
     const topReviews = async () => {
-      const allReviews = (await getReviews()).reviews;
-      if (allReviews === undefined) throw new Error("No Reviews Yet");
+      const allReviews = await getReviews();
+      if (allReviews === undefined) console.error("No Reviews Yet");
 
-      const topTestimonials: Testimonial[] = allReviews.map((r) => {
-        const rv = r as unknown as Review;
+      const topTestimonials = allReviews?.map((r) => {
+        const rv = r as unknown as Feedback;
         const review = {
-          name: rv.reviewer_name,
+          name: rv.full_name,
           role: rv.profession,
           content: rv.comment,
-          avatar: rv.reviewer_name.charAt(0).toUpperCase(),
+          avatar: rv.full_name.charAt(0).toUpperCase(),
           rating: rv.rating,
-          email: rv.reviewer_email,
-          phone: rv.reviewer_phone,
+          email: rv.email_address,
+          phone: rv.phone_number,
         };
         return review;
       });
-      setTestimonials(getRandomTestimonials<Testimonial>(topTestimonials));
+      if (topTestimonials === undefined) console.error("No reviews found");
+      setTestimonials(topTestimonials);
     };
     topReviews();
 

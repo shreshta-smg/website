@@ -1,6 +1,6 @@
 [build]
 base = "skym-web/" # Specify the base directory for the Next.js app
-command = "npm run build"
+command = "bun run build"
 publish = "skym-web/.next" # Path to the .next folder relative to the base directory
 
 [[plugins]]

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "check:bun": "node index.js",
-    "start:next": "bun --filter ./skym-web dev",
+    "start:skymweb": "bun --filter ./skym-web dev",
+    "build:skymweb": "bun --filter ./skym-web build"
     "postinstall": "npm run check:bun"
   }
 }

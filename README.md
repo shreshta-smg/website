@@ -2,6 +2,8 @@
 
 This repository hosts a full-stack web project built using modern JavaScript technologies, primarily featuring a Next.js frontend and a Strapi backend (Headless CMS).
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2ae2c55e-70ec-4840-8f2f-3ca3f9f2640a/deploy-status)](https://app.netlify.com/projects/skym-health/deploys)
+
 ## Project Structure
 
 - **skym-web/**: The frontend application, powered by [Next.js](https://nextjs.org), offers a performant, SEO-friendly website with modern tooling and best practices.

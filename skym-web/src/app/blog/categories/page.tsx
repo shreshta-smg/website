@@ -15,15 +15,14 @@ interface Category {
 export const dynamic = "force-dynamic"; // Ensures this page is rendered dynamically on each request
 
 interface CategoriesPageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
-  };
+  }>;
 }
 
-export default async function CategoriesPage({
-  searchParams,
-}: CategoriesPageProps) {
+export default async function CategoriesPage(props: CategoriesPageProps) {
+  const searchParams = await props.searchParams;
   const currentPage = parseInt(searchParams.page || "1", 10);
   const itemsPerPage = parseInt(searchParams.pageSize || "6", 10); // Changed to 6 items per page
 

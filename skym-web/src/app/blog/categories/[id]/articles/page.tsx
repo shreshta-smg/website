@@ -10,19 +10,18 @@ import React from "react";
 export const dynamic = "force-dynamic"; // Ensures this page is rendered dynamically on each request
 
 interface ArticlesPageProps {
-  params: {
+  params: Promise<{
     id: string; // The category ID from the URL, e.g., /blog/category/123/articles -> id = "123"
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
-  };
+  }>;
 }
 
-export default async function ArticlesPage({
-  params,
-  searchParams,
-}: ArticlesPageProps) {
+export default async function ArticlesPage(props: ArticlesPageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const currentPage = parseInt(searchParams.page || "1", 10);
   const itemsPerPage = parseInt(searchParams.pageSize || "9", 10); // Changed to 9 items per page (3x3 grid)
 

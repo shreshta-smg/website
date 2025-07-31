@@ -1,13 +1,14 @@
 import ArticlePreview from "@/components/ui/ArticlePreview";
 import { getArticleByArticleId } from "@/lib/server";
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
     slug: string;
-  };
+  }>;
 }
 
-export default async function ArticlePage({ params }: Props) {
+export default async function ArticlePage(props: Props) {
+  const params = await props.params;
   const articleId = params.slug;
   const { data, error } = await getArticleByArticleId(articleId);
   const categoryId = params.id;

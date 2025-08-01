@@ -66,7 +66,7 @@ export async function getPaginatedCategories(
 
     return { data: data as Category[], totalCount: count || 0, error: null };
   } catch (err) {
-    console.error("Unexpected error fetching categories:", err.message);
+    console.error("Unexpected error fetching categories:");
     return {
       data: null,
       totalCount: 0,
@@ -138,7 +138,7 @@ export async function getPaginatedArticles(
     return { data: data as Article[], totalCount: count || 0, error: null };
   } catch (err: unknown) {
     if (err instanceof Error) {
-      console.error("Unexpected error fetching articles:", err.message);
+      console.error("Unexpected error fetching articles:");
     } else {
       console.error("Unexpected error fetching articles:", err);
     }
@@ -169,7 +169,7 @@ export async function getArticleByArticleId(articleId: string) {
     return { data: article.data, error: null };
   } catch (err: unknown) {
     if (err instanceof Error) {
-      console.error("Unexpected error fetching article:", err.message);
+      console.error("Unexpected error fetching article:");
     } else {
       console.error("Unexpected error fetching article:", err);
     }

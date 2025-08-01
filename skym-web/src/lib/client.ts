@@ -28,7 +28,7 @@ export async function getReviews(): Promise<Feedback[]> {
 
     return data as Feedback[];
   } catch (err) {
-    console.error("Unexpected error fetching reviews:", err.message);
+    console.error("Unexpected error fetching reviews:");
     throw new Error("An unexpected error occurred.");
   }
 }
@@ -52,7 +52,7 @@ export async function newReview(feedback: Feedback) {
       message: "Review submitted successfully",
     };
   } catch (err) {
-    console.error("Unexpected error submitting review:", err.message);
+    console.error("Unexpected error submitting review:");
     throw new Error("An unexpected error occurred.");
   }
 }
@@ -74,7 +74,7 @@ export async function newContactUsInquiry(feedback: Feedback) {
       message: "Inquiry submitted successfully",
     };
   } catch (err) {
-    console.error("Unexpected error submitting inquiry:", err.message);
+    console.error("Unexpected error submitting inquiry:");
     throw new Error("An unexpected error occurred.");
   }
 }

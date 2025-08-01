@@ -1,17 +1,23 @@
 // app/blog/articles/page.tsx (This is a Server Component)
 
-import { getPaginatedArticles } from "@/lib/server"; // Import the function and Article type
+import {
+  createClient,
+  getAllTags,
+  getCategoryBySlug,
+  getPaginatedArticles,
+} from "@/lib/server"; // Import the function and Article type
 import PaginationControls from "@/components/ui/Pagination"; // Adjust path as needed
 import Link from "next/link"; // For linking to individual article pages
 import Image from "next/image"; // For optimized images
 import React from "react";
+import { notFound } from "next/navigation";
 
 // Set a dynamic segment option for Next.js to handle search params
 export const dynamic = "force-dynamic"; // Ensures this page is rendered dynamically on each request
 
 interface ArticlesPageProps {
   params: Promise<{
-    id: string; // The category ID from the URL, e.g., /blog/category/123/articles -> id = "123"
+    id: string;
   }>;
   searchParams: Promise<{
     page?: string;
@@ -23,7 +29,12 @@ export default async function ArticlesPage(props: ArticlesPageProps) {
   const searchParams = await props.searchParams;
   const params = await props.params;
   const currentPage = parseInt(searchParams.page || "1", 10);
-  const itemsPerPage = parseInt(searchParams.pageSize || "9", 10); // Changed to 9 items per page (3x3 grid)
+  const itemsPerPage = parseInt(searchParams.pageSize || "9", 10);
+
+  const category = await getCategoryBySlug(params.id);
+  if (!category) {
+    notFound(); // If category doesn't exist, show 404
+  }
 
   const {
     data: articles,
@@ -33,8 +44,8 @@ export default async function ArticlesPage(props: ArticlesPageProps) {
     page: currentPage,
     pageSize: itemsPerPage,
     sortBy: "created_at",
-    sortOrder: "desc",
-    categoryId: params.id,
+    sortOrder: "asc",
+    categoryId: category.id,
   });
 
   if (error) {
@@ -61,7 +72,6 @@ export default async function ArticlesPage(props: ArticlesPageProps) {
   }
 
   const totalPages = Math.ceil((totalCount || 0) / itemsPerPage);
-
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center text-primary">

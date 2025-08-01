@@ -12,7 +12,7 @@ const Contact = () => {
     phone_number: "",
     subject: "",
     message: "",
-    category: FeedbackCategory.None,
+    category: 0,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -165,7 +165,12 @@ const Contact = () => {
         title: subject,
         comment: message,
         feedback_category: category,
-        feedback_type: FeedbackType.Inquiry,
+        feedback_type: 2,
+        created_at: "",
+        id: 0,
+        is_approved: false,
+        profession: null,
+        rating: null,
       };
       await newContactUsInquiry(newInquiry);
       setSubmitStatus("success");
@@ -175,9 +180,9 @@ const Contact = () => {
         phone_number: "",
         subject: "",
         message: "",
-        category: FeedbackCategory.None,
+        category: 0,
       });
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -413,7 +418,7 @@ const Contact = () => {
               </div>
 
               <div className="space-y-4">
-                {contactInfo.map((info, _) => (
+                {contactInfo.map((info, index) => (
                   <div key={info.title} className="card  shadow-sm card-hover">
                     <div className="card-body p-4">
                       <div className="flex items-center space-x-4">

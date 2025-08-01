@@ -1,5 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
-import { Feedback } from "./types";
+import { Feedback, Tag } from "./types";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
@@ -77,4 +77,25 @@ export async function newContactUsInquiry(feedback: Feedback) {
     console.error("Unexpected error submitting inquiry:", err.message);
     throw new Error("An unexpected error occurred.");
   }
+}
+
+export async function getTagsForArticle(
+  articleId: number,
+): Promise<Tag[] | null> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("articles_tags")
+    .select("tags(id, title)") // Select tag details through the join
+    .eq("article_id", articleId);
+
+  if (error) {
+    console.error(
+      `Error fetching tags for article ${articleId}:`,
+      error.message,
+    );
+    return null;
+  }
+  // The result will be an array like [{ tags: { id: 1, name: '...' } }]
+  // We need to map it to just an array of Tag objects.
+  return data.flatMap((item) => item.tags as Tag[]);
 }

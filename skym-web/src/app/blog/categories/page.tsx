@@ -1,8 +1,7 @@
-// blog/categories/page.tsx (This is a Server Component)
-
-import { getPaginatedCategories } from "@/lib/server"; // Adjust path as needed
+import { createClient, getPaginatedCategories } from "@/lib/server"; // Adjust path as needed
 import PaginationControls from "@/components/ui/Pagination"; // Adjust path as needed
 import Link from "next/link"; // For linking to category slug
+import CategoryTable from "@/components/ui/category/List";
 
 // Define a type for your categories from database.types.ts for client-side use
 interface Category {
@@ -24,7 +23,8 @@ interface CategoriesPageProps {
 export default async function CategoriesPage(props: CategoriesPageProps) {
   const searchParams = await props.searchParams;
   const currentPage = parseInt(searchParams.page || "1", 10);
-  const itemsPerPage = parseInt(searchParams.pageSize || "6", 10); // Changed to 6 items per page
+  const itemsPerPage = parseInt(searchParams.pageSize || "6", 10);
+  const supabase = createClient();
 
   const {
     data: categories,
@@ -34,7 +34,7 @@ export default async function CategoriesPage(props: CategoriesPageProps) {
     page: currentPage,
     pageSize: itemsPerPage,
     sortBy: "id", // Example sort for categories
-    sortOrder: "desc", // Example sort
+    sortOrder: "asc", // Example sort
   });
 
   if (error) {
@@ -61,7 +61,6 @@ export default async function CategoriesPage(props: CategoriesPageProps) {
   }
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
-
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold mb-6 text-center text-primary sm:text-4xl">

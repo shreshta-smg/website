@@ -37,7 +37,7 @@ export default function ArticlePreview({
       </div>
 
       <div>
-        <Link href={`/blog/category/${categoryId}/article/${slug}`}>
+        <Link href={`/blog/categories/${categoryId}/articles/${slug}`}>
           <h3 className="text-xl font-semibold hover:text-primary cursor-pointer mb-2">
             {title}
           </h3>

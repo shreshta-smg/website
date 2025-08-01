@@ -1,22 +1,30 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { Article, Category, PaginatedData, PaginationOptions } from "./types";
+import {
+  Article,
+  Category,
+  PaginatedData,
+  PaginationOptions,
+  Tag,
+} from "./types";
+import { Database } from "./database.types";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 
 export const createClient = () => {
-  return createServerClient(supabaseUrl!, supabaseKey!, {
+  const cookiesStore = cookies();
+  return createServerClient<Database>(supabaseUrl!, supabaseKey!, {
     db: {
       schema: "api",
     },
     cookies: {
       async get(name: string) {
-        const cookieStore = await cookies();
+        const cookieStore = await cookiesStore;
         return cookieStore.get(name)?.value;
       },
       async set(name: string, value: string, options: CookieOptions) {
-        const cookieStore = await cookies();
+        const cookieStore = await cookiesStore;
         try {
           cookieStore.set({ name, value, ...options });
         } catch (error) {
@@ -25,7 +33,7 @@ export const createClient = () => {
         }
       },
       async remove(name: string, options: CookieOptions) {
-        const cookieStore = await cookies();
+        const cookieStore = await cookiesStore;
         try {
           cookieStore.set({ name, value: "", ...options });
         } catch (error) {
@@ -36,19 +44,18 @@ export const createClient = () => {
   });
 };
 
-const supabase = createClient();
 export async function getPaginatedCategories(
   options: PaginationOptions,
 ): Promise<PaginatedData<Category>> {
-  const { page, pageSize, sortBy = "created_at", sortOrder = "desc" } = options;
+  const { page, pageSize, sortBy = "created_at", sortOrder = "asc" } = options;
 
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize - 1;
-
+  const supabase = createClient();
   try {
     const { data, error, count } = await supabase
       .from("categories") // Your table name here
-      .select(`title, slug`, { count: "exact" }) // Request exact count
+      .select(`id, title, slug, created_at`, { count: "exact" }) // Request exact count
       .order(sortBy, { ascending: sortOrder === "asc" })
       .range(startIndex, endIndex);
 
@@ -68,6 +75,34 @@ export async function getPaginatedCategories(
   }
 }
 
+export async function getAllCategories(): Promise<Category[] | null> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, title, slug")
+    .order("title", { ascending: true }); // Order alphabetically for dropdown
+
+  if (error) {
+    console.error("Error fetching all categories:", error.message);
+    return null;
+  }
+  return data as Category[];
+}
+
+export async function getAllTags(): Promise<Tag[] | null> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tags")
+    .select("id, title, slug")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching all tags:", error.message);
+    return null;
+  }
+  return data as Tag[];
+}
+
 export async function getPaginatedArticles(
   options: PaginationOptions,
 ): Promise<PaginatedData<Article>> {
@@ -81,30 +116,15 @@ export async function getPaginatedArticles(
 
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize - 1;
-
+  const supabase = createClient();
   try {
-    const foundCategory = await supabase
-      .from("categories")
-      .select("id")
-      .eq("slug", options.categoryId)
-      .maybeSingle();
-    if (!foundCategory.data || foundCategory.error) {
-      console.error("Error fetching category with Reference: ", categoryId);
-      return {
-        data: null,
-        totalCount: 0,
-        error: new Error(foundCategory.error?.message),
-      };
-    }
-
-    const categoryRef: number | null = foundCategory.data.id;
     const articles = await supabase
       .from("articles") // Your table name here
       .select(
         "article_id, caption, category_id, content, created_at, featured_image_url, id, title",
         { count: "exact" },
       )
-      .eq("category_id", categoryRef)
+      .eq("category_id", categoryId)
       .order(sortBy, { ascending: sortOrder === "asc" })
       .range(startIndex, endIndex);
 
@@ -131,6 +151,7 @@ export async function getPaginatedArticles(
 }
 
 export async function getArticleByArticleId(articleId: string) {
+  const supabase = createClient();
   try {
     const article = await supabase
       .from("articles")
@@ -154,4 +175,20 @@ export async function getArticleByArticleId(articleId: string) {
     }
     return { data: null, error: new Error("An unexpected error occurred.") };
   }
+}
+
+// Function to get a category by its slug
+export async function getCategoryBySlug(slug: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, title, slug")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching category by slug ${slug}:`, error.message);
+    return null;
+  }
+  return data;
 }

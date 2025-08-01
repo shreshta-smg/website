@@ -5,7 +5,14 @@ const nextConfig: NextConfig = {
     cssChunking: true,
   },
   images: {
-    remotePatterns: [new URL("https://example.com/**")],
+    remotePatterns: [
+      new URL("https://example.com/**"),
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "**", // Be specific here: /<YOUR_CLOUD_NAME>/**
+      },
+    ],
   },
 };
 

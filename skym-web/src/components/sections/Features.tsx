@@ -24,7 +24,7 @@ function getRandomTestimonials<T>(list: T[]): T[] {
 const Features = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
 
   const features = [
@@ -252,19 +252,19 @@ const Features = () => {
 
       const topTestimonials = allReviews?.map((r) => {
         const rv = r as unknown as Feedback;
-        const review = {
+        const review: Testimonial = {
           name: rv.full_name,
-          role: rv.profession,
-          content: rv.comment,
+          role: rv.profession || "",
+          content: rv.comment || "",
           avatar: rv.full_name.charAt(0).toUpperCase(),
-          rating: rv.rating,
-          email: rv.email_address,
-          phone: rv.phone_number,
+          rating: rv.rating || 0,
+          email: rv.email_address || "",
+          phone: rv.phone_number || "",
         };
         return review;
       });
       if (topTestimonials === undefined) console.error("No reviews found");
-      setTestimonials(topTestimonials);
+      if (topTestimonials) setTestimonials(topTestimonials);
     };
     topReviews();
 
@@ -454,7 +454,7 @@ const Features = () => {
                   </div>
 
                   <div className="rating rating-sm mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
+                    {[...Array(testimonial.rating || 0)].map((_, i) => (
                       <input
                         key={i}
                         type="radio"

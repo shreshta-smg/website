@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import AuthStatus from "./AuthStatus";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -80,8 +79,7 @@ const Header = () => {
       </div>
 
       <div className="navbar-end gap-4">
-        <AuthStatus />
-        <Link href="#contact" className="btn btn-primary btn-animate">
+        <Link href="/#contact" className="btn btn-primary btn-animate">
           Get Started
         </Link>
       </div>

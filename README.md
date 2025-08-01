@@ -7,7 +7,6 @@ This repository hosts a full-stack web project built using modern JavaScript tec
 ## Project Structure
 
 - **skym-web/**: The frontend application, powered by [Next.js](https://nextjs.org), offers a performant, SEO-friendly website with modern tooling and best practices.
-- **skym-cms/**: The backend, built with [Strapi](https://strapi.io), serves as a flexible content management system to manage dynamic content and APIs for the frontend.
 
 ---
 
@@ -19,12 +18,8 @@ This repository hosts a full-stack web project built using modern JavaScript tec
 - Font optimization and support for modern web standards.
 - Customizable and extensible via TypeScript.
 
-### Backend (`skym-cms`)
-- Powered by Strapi Headless CMS.
-- Robust API generation for content types like "About Us" and "Reviews".
-- Configurable authentication, roles, and permissions.
-- Supports multiple databases (default: SQLite; configurable for MySQL/PostgreSQL).
-- Easily extensible with plugins and custom business logic.
+### Backend
+- Powered by Supabase.
 
 ---
 
@@ -52,16 +47,12 @@ chmod +x run_dev.sh
 ## Deployment
 
 - **Frontend:** Deploy easily to [Vercel](https://vercel.com/) or your preferred platform. See Next.js [deployment docs](https://nextjs.org/docs/app/building-your-application/deploying).
-- **Backend:** Strapi can be deployed to services like Heroku, DigitalOcean, or Strapi Cloud. See Strapi [deployment docs](https://docs.strapi.io/dev-docs/deployment).
 
 ---
 
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
-- [Strapi Documentation](https://docs.strapi.io)
-- [Strapi Resource Center](https://strapi.io/resource-center)
-- [Strapi Community Forum](https://forum.strapi.io/)
 
 ---
 

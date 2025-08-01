@@ -75,6 +75,10 @@ const ReviewForm = () => {
         feedback_category: category,
         rating: rating,
         profession: profession,
+        created_at: "",
+        feedback_type: 1,
+        id: 0,
+        is_approved: false,
       });
       setSubmitStatus("success");
       setFormData({
@@ -83,7 +87,7 @@ const ReviewForm = () => {
         reviewer_phone: "",
         title: "",
         comment: "",
-        category: FeedbackCategory.None,
+        category: 0,
         rating: 0,
         profession: "",
       });
@@ -104,7 +108,7 @@ const ReviewForm = () => {
       reviewer_phone: "",
       title: "",
       comment: "",
-      category: FeedbackCategory.None,
+      category: 0,
       rating: 0,
       profession: "",
     });

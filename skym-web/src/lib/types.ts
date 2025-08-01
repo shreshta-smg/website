@@ -46,9 +46,14 @@ export interface PaginationOptions {
   pageSize: number;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
-  categoryId?: string;
+  categoryId?: number;
 }
 
 export type Category = Database["api"]["Tables"]["categories"]["Row"];
 export type Article = Database["api"]["Tables"]["articles"]["Row"];
+export type NewArticle = Database["api"]["Tables"]["articles"]["Insert"]; // For Create form
+export type UpdateArticle = Database["api"]["Tables"]["articles"]["Update"];
 export type Feedback = Database["api"]["Tables"]["feedbacks"]["Row"];
+export type Tag = Database["api"]["Tables"]["tags"]["Row"];
+export type NewArticleTag =
+  Database["api"]["Tables"]["articles_tags"]["Insert"];

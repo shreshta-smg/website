@@ -3,7 +3,6 @@ import { Fredoka, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
-import AuthStatus from "@/components/ui/AuthStatus";
 
 const fredoka = Fredoka({
   subsets: ["latin"],

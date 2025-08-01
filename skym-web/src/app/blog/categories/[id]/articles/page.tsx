@@ -1,11 +1,6 @@
 // app/blog/articles/page.tsx (This is a Server Component)
 
-import {
-  createClient,
-  getAllTags,
-  getCategoryBySlug,
-  getPaginatedArticles,
-} from "@/lib/server"; // Import the function and Article type
+import { getCategoryBySlug, getPaginatedArticles } from "@/lib/server"; // Import the function and Article type
 import PaginationControls from "@/components/ui/Pagination"; // Adjust path as needed
 import Link from "next/link"; // For linking to individual article pages
 import Image from "next/image"; // For optimized images

@@ -1,8 +1,6 @@
-import { createClient, getPaginatedCategories } from "@/lib/server"; // Adjust path as needed
+import { getPaginatedCategories } from "@/lib/server"; // Adjust path as needed
 import PaginationControls from "@/components/ui/Pagination"; // Adjust path as needed
 import Link from "next/link"; // For linking to category slug
-import CategoryTable from "@/components/ui/category/List";
-
 // Define a type for your categories from database.types.ts for client-side use
 interface Category {
   id: number;
@@ -24,7 +22,6 @@ export default async function CategoriesPage(props: CategoriesPageProps) {
   const searchParams = await props.searchParams;
   const currentPage = parseInt(searchParams.page || "1", 10);
   const itemsPerPage = parseInt(searchParams.pageSize || "6", 10);
-  const supabase = createClient();
 
   const {
     data: categories,

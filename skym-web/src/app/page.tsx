@@ -4,8 +4,9 @@ import Features from "@/components/sections/Features";
 import Contact from "@/components/sections/Contact";
 import ReviewForm from "@/components/sections/ReviewForm";
 import WelcomePage from "@/components/ui/Welcome";
+import VisitorTracker from "@/components/ui/VisitorTracker";
 export const dynamic = "force-dynamic";
-export default async function Home() {
+export default function Home() {
   return (
     <section>
       <WelcomePage />
@@ -14,6 +15,7 @@ export default async function Home() {
       <Features />
       <ReviewForm />
       <Contact />
+      <VisitorTracker />
     </section>
   );
 }

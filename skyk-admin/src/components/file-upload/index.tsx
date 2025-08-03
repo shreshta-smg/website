@@ -105,13 +105,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           throw uploadError;
         }
 
-        const { data: publicUrlData, error: urlError } = supabaseClient.storage
+        const { data: publicUrlData } = supabaseClient.storage
           .from(bucketName)
           .getPublicUrl(filePath);
-
-        if (urlError) {
-          throw urlError;
-        }
 
         if (publicUrlData && publicUrlData.publicUrl) {
           setCurrentFileUrl(publicUrlData.publicUrl);
@@ -120,9 +116,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         } else {
           setUploadError("Failed to get public URL after upload.");
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Upload error:", error);
-        setUploadError(`Upload failed: ${error.message}`);
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error";
+        setUploadError(`Upload failed: ${errorMessage}`);
         onChange?.(null); // Clear value on error via Controller
       } finally {
         setUploading(false);
@@ -265,7 +263,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
               component="label"
               variant="text"
               sx={{ mt: 1 }}
-              disabled={uploading || (currentFileUrl && maxCount === 1)}
+              disabled={uploading || Boolean(currentFileUrl && maxCount === 1)}
             >
               Select File
               <VisuallyHiddenInput type="file" onChange={handleFileChange} />

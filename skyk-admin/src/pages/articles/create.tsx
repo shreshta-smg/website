@@ -125,7 +125,9 @@ export const ArticlesCreate: React.FC = () => {
             )}
           />
           {errors.content && (
-            <FormHelperText error>{errors.content?.message}</FormHelperText>
+            <FormHelperText error>
+              {errors.content?.message?.toString() || ""}
+            </FormHelperText>
           )}
         </FormControl>
         {/* --- End MDEditor for Content --- */}

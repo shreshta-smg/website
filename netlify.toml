@@ -1,5 +1,5 @@
 [build]
-base = "skyk-web"
+base = "skym-web"
 command = "bun run build"
 
 [[plugins]]

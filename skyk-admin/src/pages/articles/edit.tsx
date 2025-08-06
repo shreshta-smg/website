@@ -1,8 +1,9 @@
-import { Edit, useAutocomplete } from "@refinedev/mui";
+import { Edit, MarkdownField, useAutocomplete } from "@refinedev/mui";
 import { Box, TextField, Autocomplete } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller } from "react-hook-form";
 import { FileUploader } from "../../components";
+import MDEditor from "@uiw/react-md-editor";
 
 export const ArticlesEdit = () => {
   const {
@@ -73,40 +74,45 @@ export const ArticlesEdit = () => {
           {...register("title", {
             required: "This field is required",
           })}
-          error={!!(errors as any)?.title}
-          helperText={(errors as any)?.title?.message}
-          margin="normal"
-          fullWidth
-          slotProps={{
+            error={!!(errors as any)?.title}
+            helperText={(errors as any)?.title?.message}
+            margin="normal"
+            fullWidth
+            slotProps={{
             inputLabel: {
               shrink: true,
             },
-          }}
-          type="text"
-          label="Title"
-          name="title"
-        />
-        <TextField
-          {...register("content", {
-            required: "This field is required",
-          })}
-          error={!!(errors as any)?.content}
-          helperText={(errors as any)?.content?.message}
-          margin="normal"
-          fullWidth
-          slotProps={{
-            inputLabel: {
-              shrink: true,
-            },
-          }}
-          multiline
-          label="Content"
-          name="content"
-        />
-        <Controller
-          control={control}
-          name="category_id"
-          rules={{ required: "This field is required" }}
+            }}
+            type="text"
+            label="Title"
+            name="title"
+          />
+          {/* Markdown Editor for Content */}
+          <Controller
+            control={control}
+            name="content"
+            rules={{ required: "This field is required" }}
+            render={({ field, fieldState }) => (
+            <Box marginY={2}>
+              <label style={{ fontWeight: 500, marginBottom: 8, display: "block" }}>
+              Content
+              </label>
+              <MDEditor
+              {...field}
+             
+              />
+              {/* 
+              For a full-featured Markdown editor, you can use a library like `@uiw/react-md-editor`:
+              <MDEditor value={field.value} onChange={field.onChange} />
+              Make sure to install the package and import its CSS.
+              */}
+            </Box>
+            )}
+          />
+          <Controller
+            control={control}
+            name="category_id"
+            rules={{ required: "This field is required" }}
           // eslint-disable-next-line
           defaultValue={null as any}
           render={({ field }) => (
@@ -176,7 +182,7 @@ export const ArticlesEdit = () => {
             <FileUploader
               label="Featured Image"
               hint="Drag & drop an image or click to browse. Max 1 image."
-              bucketName="article-images"
+              bucketName="gallery"
               folderPath="public/articles"
               maxCount={1}
               listType="picture"

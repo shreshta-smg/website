@@ -200,7 +200,7 @@ export const ArticlesCreate: React.FC = () => {
             <FileUploader
               label="Featured Image"
               hint="Drag & drop an image or click to browse. Max 1 image."
-              bucketName="article-images"
+              bucketName="gallery"
               folderPath="public/articles"
               maxCount={1}
               listType="picture"

@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
       new URL("https://example.com/**"),
       {
         protocol: "https",
-        hostname: "res.cloudinary.com",
-        pathname: "**", // Be specific here: /<YOUR_CLOUD_NAME>/**
+        hostname: "cxcqcvvtjyqmcwrmtpsj.supabase.co",
+        pathname: "**",
       },
     ],
   },

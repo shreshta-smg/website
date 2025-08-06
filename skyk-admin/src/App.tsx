@@ -1,4 +1,4 @@
-import { Refine, WelcomePage, Authenticated } from "@refinedev/core";
+import { Refine, Authenticated } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -22,30 +22,31 @@ import routerBindings, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
 } from "@refinedev/react-router";
-import {
-  CategoryList,
-  CategoryCreate,
-  CategoryEdit,
-  CategoryShow,
-} from "./pages/categories";
+const CategoryList = React.lazy(() => import("./pages/categories").then(m => ({ default: m.CategoryList })));
+const CategoryCreate = React.lazy(() => import("./pages/categories").then(m => ({ default: m.CategoryCreate })));
+const CategoryEdit = React.lazy(() => import("./pages/categories").then(m => ({ default: m.CategoryEdit })));
+const CategoryShow = React.lazy(() => import("./pages/categories").then(m => ({ default: m.CategoryShow })));
+
+const ArticlesList = React.lazy(() => import("./pages/articles").then(m => ({ default: m.ArticlesList })));
+const ArticlesCreate = React.lazy(() => import("./pages/articles").then(m => ({ default: m.ArticlesCreate })));
+const ArticlesEdit = React.lazy(() => import("./pages/articles").then(m => ({ default: m.ArticlesEdit })));
+const ArticlesShow = React.lazy(() => import("./pages/articles").then(m => ({ default: m.ArticlesShow })));
+
+const TagsList = React.lazy(() => import("./pages/tags").then(m => ({ default: m.TagsList })));
+const TagsCreate = React.lazy(() => import("./pages/tags").then(m => ({ default: m.TagsCreate })));
+const TagsEdit = React.lazy(() => import("./pages/tags").then(m => ({ default: m.TagsEdit })));
+const TagsShow = React.lazy(() => import("./pages/tags").then(m => ({ default: m.TagsShow })));
+
+const FeedbacksList = React.lazy(() => import("./pages/feedbacks").then(m => ({ default: m.FeedbacksList })));
+const FeedbacksCreate = React.lazy(() => import("./pages/feedbacks").then(m => ({ default: m.FeedbacksCreate })));
+const FeedbacksEdit = React.lazy(() => import("./pages/feedbacks").then(m => ({ default: m.FeedbacksEdit })));
+const FeedbacksShow = React.lazy(() => import("./pages/feedbacks").then(m => ({ default: m.FeedbacksShow })));
 import { AppIcon } from "./components/app-icon";
 import { supabaseClient } from "./utility";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { Header } from "./components/header";
 import authProvider from "./authProvider";
-import {
-  ArticlesCreate,
-  ArticlesEdit,
-  ArticlesList,
-  ArticlesShow,
-} from "./pages/articles";
-import { TagsCreate, TagsEdit, TagsList, TagsShow } from "./pages/tags";
-import {
-  FeedbacksCreate,
-  FeedbacksEdit,
-  FeedbacksList,
-  FeedbacksShow,
-} from "./pages/feedbacks";
+import React from "react";
 
 function App() {
   return (
@@ -109,7 +110,7 @@ function App() {
                   warnWhenUnsavedChanges: true,
                   useNewQueryKeys: true,
                   projectId: "ZoA6Pb-ZrhYWK-foZQIF",
-                  title: { text: "SKYK Admin", icon: <AppIcon /> },
+                  title: { text: "SKYM Admin", icon: <AppIcon /> },
                 }}
               >
                 <Routes>

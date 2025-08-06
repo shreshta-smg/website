@@ -187,7 +187,7 @@ const About = () => {
           className={`text-center mb-16 transition-all duration-700 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            About Shree Krishna Yoga Kendra
+            About Shree Krishna Yoga Mandiram
           </h2>
           <p className="text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed">
             Join us for yoga classes that will help you improve your physical,
@@ -227,7 +227,7 @@ const About = () => {
               Embrace Wellness, Discover Yourself
             </h3>
             <p className="text-lg text-base-content/80 mb-6 leading-relaxed">
-              For over 15 years, Shree Krishna Yoga Kendra has been a sanctuary
+              For over 15 years, Shree Krishna Yoga Mandiram has been a sanctuary
               for yoga enthusiasts and beginners alike. Our mission is to help
               you achieve balance, flexibility, and inner peace through
               authentic yoga practices and personalized guidance.
@@ -299,7 +299,7 @@ const About = () => {
           className={`transition-all duration-700 delay-900 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
         >
           <h3 className="text-3xl font-bold text-center mb-12">
-            Why Choose Shree Krishna Yoga Kendra?
+            Why Choose Shree Krishna Yoga Mandiram?
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (

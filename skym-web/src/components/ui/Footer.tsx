@@ -78,7 +78,7 @@ const Footer = () => {
               href="/"
               className="text-2xl font-bold gradient-text mb-4 inline-block"
             >
-              Shree Krishna Yoga Kendra
+              Shree Krishna Yoga Mandiram
             </Link>
             <p className="text-base-content/70 mb-6 leading-relaxed">
               Transforming businesses with innovative technology solutions. We

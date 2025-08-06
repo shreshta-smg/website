@@ -92,6 +92,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
       const uniqueFileName = `${Date.now()}-${file.name}`;
       const filePath = `${folderPath}/${uniqueFileName}`;
+      if(file.size > 2 * 1024 * 1024) { // Limit to 2MB
+        setUploadError("File size exceeds 2MB limit.");
+        setUploading(false);
+        return;
+      }
 
       try {
         const { error: uploadError } = await supabaseClient.storage
